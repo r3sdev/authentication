@@ -15,7 +15,7 @@ export abstract class HttpClient implements HttpClientSpec {
     abstract delete<D>(path: string, payload?: HttpClient.Delete): Promise<D>;
 }
 
-export namespace HttpClient {
+export declare namespace HttpClient {
     export interface ConstructorProps {
         baseUrl: string
     }
@@ -25,6 +25,6 @@ export namespace HttpClient {
     }
     export interface Post extends Common {
         body?: any;
-    };
+    }
     export interface Delete extends Common { }
 }
