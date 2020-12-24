@@ -29,7 +29,7 @@ export abstract class HttpService implements RegisterService, LoginService, Logo
     }
 }
 
-export namespace HttpService {
+export declare namespace HttpService {
     export interface ConstructorProps {
         httpClient: HttpClient;
     }
