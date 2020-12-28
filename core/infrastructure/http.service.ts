@@ -5,32 +5,28 @@ import { LoginService } from "../domain/use-cases/login";
 import { LogoutService } from "../domain/use-cases/logout";
 import { RegisterService } from "../domain/use-cases/register";
 
-export abstract class HttpService implements RegisterService, LoginService, LogoutService {
-    httpClient: HttpService.ConstructorProps['httpClient'];
+export class HttpService implements RegisterService, LoginService, LogoutService {
+    httpClient: HttpService.Constructor['httpClient'];
 
-    constructor(props: HttpService.ConstructorProps) {
-        Object.assign(this, props)
+    constructor(httpClient: HttpService.Constructor['httpClient']) {
+        this.httpClient = httpClient;
     }
 
-    async register(data: RegisterUserDTO): Promise<User> {
-        return this.httpClient.post('/register', {
-            body: data,
-        })
+    async register(body: RegisterUserDTO): Promise<User> {
+        return this.httpClient.post('/register', { body })
     }
 
-    async login(credentials: LoginUserDTO): Promise<User> {
-        return this.httpClient.post('/login', {
-            body: credentials,
-        })
+    async login(body: LoginUserDTO): Promise<User> {
+        return this.httpClient.post('/login', { body })
     }
 
-    async logout(): Promise<undefined> {
-        return this.httpClient.delete('/logout')
+    async logout(body?: any): Promise<undefined> {
+        return this.httpClient.post('/logout', { body })
     }
 }
 
 export declare namespace HttpService {
-    export interface ConstructorProps {
+    export interface Constructor {
         httpClient: HttpClient;
     }
 }
