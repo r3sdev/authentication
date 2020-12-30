@@ -1,32 +1,25 @@
 import { HttpClient } from "../data/protocols/http/http-client";
 import { RegisterUserDTO, LoginUserDTO } from "../domain/dto";
 import { User } from "../domain/entities";
-import { LoginService } from "../domain/use-cases/login";
-import { LogoutService } from "../domain/use-cases/logout";
-import { RegisterService } from "../domain/use-cases/register";
+import { LoginService, LogoutService, RegisterService, CurrentUserService } from "../domain/use-cases";
 
-export class HttpService implements RegisterService, LoginService, LogoutService {
-    httpClient: HttpService.Constructor['httpClient'];
+export class HttpService implements RegisterService, LoginService, LogoutService, CurrentUserService {
 
-    constructor(httpClient: HttpService.Constructor['httpClient']) {
-        this.httpClient = httpClient;
-    }
+    constructor(public httpClient: HttpClient) { }
 
     async register(body: RegisterUserDTO): Promise<User> {
-        return this.httpClient.post('/register', { body })
+        return this.httpClient.post('/api/auth/register', { body })
     }
 
     async login(body: LoginUserDTO): Promise<User> {
-        return this.httpClient.post('/login', { body })
+        return this.httpClient.post('/api/auth/login', { body })
     }
 
     async logout(body?: any): Promise<undefined> {
-        return this.httpClient.post('/logout', { body })
+        return this.httpClient.delete('/api/auth/logout', { headers: body?.headers })
     }
-}
 
-export declare namespace HttpService {
-    export interface Constructor {
-        httpClient: HttpClient;
+    async currentUser(body?: any): Promise<User | undefined> {
+        return this.httpClient.get('/api/auth/current-user', { headers: body?.headers })
     }
 }
