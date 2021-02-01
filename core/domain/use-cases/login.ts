@@ -8,7 +8,7 @@ export interface LoginService {
 export abstract class LoginInteractor implements LoginService {
     constructor(public loginService: LoginService) { }
 
-    async login(credentials: LoginUserDTO): Promise<User> {
+    async login(credentials: LoginUserDTO) {
         return this.loginService.login(credentials);
     }
 }

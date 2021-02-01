@@ -1,10 +1,12 @@
+
+
 export interface HttpClientSpec {
-    post<P>(path: string, payload: HttpClient.Post): Promise<P>;
-    get<G>(path: string, payload?: HttpClient.Get): Promise<G>;
-    delete<D>(path: string, payload?: HttpClient.Delete): Promise<D>;
+    post<P>(path: string, payload: HttpClient.Post): Promise<HttpClient.DataError<P>>;
+    get<G>(path: string, payload?: HttpClient.Get): Promise<HttpClient.DataError<G>>;
+    delete<D>(path: string, payload?: HttpClient.Delete): Promise<HttpClient.DataError<D>>;
 }
 
-export abstract class HttpClient {
+export abstract class HttpClient implements HttpClientSpec {
 
     constructor(public baseUrl?: string) {}
 
@@ -26,4 +28,8 @@ export declare namespace HttpClient {
     }
     export interface Get extends Common {}
     export interface Delete extends Common {}
+    export interface DataError<T = any> {
+        data: T | undefined;
+        error: Error | undefined
+    }
 }

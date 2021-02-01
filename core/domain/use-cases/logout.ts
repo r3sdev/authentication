@@ -1,3 +1,4 @@
+
 export interface LogoutService {
     logout(): Promise<void>
 }

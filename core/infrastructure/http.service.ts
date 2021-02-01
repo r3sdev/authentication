@@ -15,11 +15,12 @@ export class HttpService implements RegisterService, LoginService, LogoutService
         return this.httpClient.post('/api/auth/login', { body })
     }
 
-    async logout(body?: any): Promise<undefined> {
+    async logout(body?: any): Promise<void> {
         return this.httpClient.delete('/api/auth/logout', { headers: body?.headers })
     }
 
-    async currentUser(body?: any): Promise<User | undefined> {
+    async currentUser(body?: any): Promise<User> {
         return this.httpClient.get('/api/auth/current-user', { headers: body?.headers })
     }
 }
+
